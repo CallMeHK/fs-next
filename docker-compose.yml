@@ -1,0 +1,29 @@
+version: "3"
+services:
+  
+  template_next:
+    build: .
+    depends_on:
+      - template_pg
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app/
+      - /app/node_modules
+
+  template_pg:
+    image: postgres:10.4
+    ports:
+      - "35432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
+    volumes:
+      - ./database/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/

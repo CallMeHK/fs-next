@@ -3,13 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "docker": "docker-compose up",
+    "rebuild-docker": "docker-compose down && docker-compose up --force-recreate --build",
+    "dbash": "docker exec -it dev-env_postgres_1 bash"
   },
   "dependencies": {
+    "emotion": "^10.0.27",
     "next": "9.2.2",
+    "pg": "^7.18.2",
     "react": "16.13.0",
     "react-dom": "16.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.0",
+    "@types/react": "^16.9.23",
+    "typescript": "^3.8.3"
   }
 }
