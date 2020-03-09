@@ -11,6 +11,7 @@
     "dbash": "docker exec -it dev-env_postgres_1 bash"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "emotion": "^10.0.27",
     "next": "9.2.2",
     "pg": "^7.18.2",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.9.0",
+    "@types/pg": "^7.14.1",
     "@types/react": "^16.9.23",
     "typescript": "^3.8.3"
   }
