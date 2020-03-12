@@ -1,13 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import {time} from '../../services/db.service'
+import { query } from '../../services/db.service'
+import { routeMethodSwitch } from '../../utils/route-method-switch'
 
+const GET = (req: NextApiRequest, res: NextApiResponse) => res.json({msg: 'GET USER'})
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
-          const response = await time()
-          console.log(response)
-					res.json(response)
-  } else {
-					res.send('not post')
-  }
-}
+const userRoutes = routeMethodSwitch({ GET })
+
+export default userRoutes
