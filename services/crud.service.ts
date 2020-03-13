@@ -27,9 +27,64 @@ const CrudServiceFactory = <T>(table: string) => {
         }
     })
 
+    const find = async (crudParamMap: Partial<T>, joinString: 'AND' | 'OR' = 'AND'): Promise<SuccessWrapper<T[]>> => {
+        const columnKeys = Object.keys(crudParamMap)
+        const columnValues = Object.values(crudParamMap) as (string | number)[]
+        const searchParameters = columnKeys
+            .map((columnName: any, i: number ) => `${columnName} = $${(i + 1)} `)
+            .join(joinString + ' ')
+        const queryString = `
+        SELECT * FROM ${table} WHERE ${searchParameters}
+        `
+        console.info({queryString, columnValues})
+        const response = await query.any<T>(queryString, columnValues)
+
+        const { data } = response
+
+        if(!data[0]){
+            return {
+                success: false,
+                error: new Error('No rows found')
+            }
+        }
+
+        return {
+            success: true,
+            data
+        }
+
+    }
+
+    const findOne = tryCatchP(async (crudParamMap: Partial<T>): Promise<SuccessWrapper<T>> => {
+        const response = await userService.find(crudParamMap)
+        
+        const {data, success} = response
+
+        if(!success){
+            return {
+                success: false,
+                error: response.error
+            }
+        }
+
+        if(data[1]){
+            return {
+                success: false,
+                error: new Error('Found more than one row')
+            }
+        }
+
+        return {
+            success: true,
+            data: data[0]
+        }
+    })
+
 
     const userService =  {
-        create
+        create,
+        find,
+        findOne
     }
 
     return userService

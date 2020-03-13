@@ -1,14 +1,32 @@
-const tryCatchP = <T>(func: T) =>
-    (((...params: any) => {
+const tryCatch = <T>(func: T) =>
+    (( (...params: any) => {
         try {
             //@ts-ignore
-            return func(...params)
-        } catch (e) {
+            const result = func(...params)
+            return result
+        } catch (error) {
+            console.log({error})
             return {
                 success: false,
-                error: e
+                error
             }
         }
     }) as unknown) as T
 
-export { tryCatchP }
+
+const tryCatchP = <T>(func: T) =>
+    ((async (...params: any) => {
+        try {
+            //@ts-ignore
+            const result = await func(...params)
+            return result
+        } catch (error) {
+            console.log({error})
+            return {
+                success: false,
+                error
+            }
+        }
+    }) as unknown) as T
+
+export { tryCatch, tryCatchP }

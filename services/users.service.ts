@@ -3,7 +3,7 @@ import { PasswordService } from './password.service'
 import { tryCatchP } from '../utils/try-catch'
 import { SuccessWrapper } from '../utils/common.interface'
 
-interface UsersTable {
+export interface UsersTable {
     id?: number
     username: string
     email: string
@@ -25,6 +25,16 @@ const UsersServiceFactory = () => {
                     error: new Error('All user parameters not provided')
                 }
             }
+
+            const userExistsResponse = await usersService.find({username, email}, 'OR')
+
+            if(userExistsResponse.success){
+                return {
+                    success: false,
+                    error: new Error('User already exists')
+                }
+            }
+
             const hash = await PasswordService.hash(password)
             if (!hash.success) {
                 return {
@@ -32,7 +42,7 @@ const UsersServiceFactory = () => {
                     error: hash.error
                 }
             }
-            const response = await usersCrudService.create({ username, email, password: hash.data?.hash, role: 'user' })
+            const response = await usersService.create({ username, email, password: hash.data?.hash, role: 'user' })
             if (!response.success) {
                 return {
                     success: false,
@@ -52,7 +62,30 @@ const UsersServiceFactory = () => {
         }
     )
 
-    const usersService = { ...usersCrudService, createUser }
+    const findUserNoPassword = async (searchParams: Partial<UsersTable>) => {
+        const findUserResponse = await usersService.findOne(searchParams)
+
+        const { success, data, error } = findUserResponse
+
+        if(!success){
+            return {
+                success: false,
+                error
+            }
+        }
+
+        const responseNoPassword = {
+            ...data,
+            password: undefined
+        }
+
+        return {
+            success: true,
+            data: responseNoPassword
+        }
+    }
+
+    const usersService = { ...usersCrudService, createUser, findUserNoPassword }
 
     return usersService
 }

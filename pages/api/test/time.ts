@@ -13,5 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         'pw'
     )
 
+    console.log({userResponse})
+
     res.json(userResponse)
 }
