@@ -9,16 +9,19 @@ export interface IUserState {
 }
 
 export interface IUserContext {
-    userState: IUserState
+    isLoggedIn: boolean
+    userState?: IUserState
     setUserState: (userState: IUserState) => void
+    setIsLoggedIn: (isLoggedIn: boolean) => void
 }
 
 export const UserContext = React.createContext<IUserContext>({} as IUserContext)
 
 const UserContextProvider: React.FC = ({ children }) => {
-    const [userState, setUserState] = React.useState({} as IUserState)
+    const [userState, setUserState] = React.useState<IUserState>({} as IUserState)
+    const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false)
 
-    return <UserContext.Provider value={{ userState, setUserState }}>{children}</UserContext.Provider>
+    return <UserContext.Provider value={{ isLoggedIn, userState, setUserState, setIsLoggedIn }}>{children}</UserContext.Provider>
 }
 
 export default UserContextProvider

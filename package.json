@@ -8,14 +8,17 @@
     "start": "next start",
     "docker": "docker-compose up",
     "rebuild-docker": "docker-compose down && docker-compose up --force-recreate --build",
-    "dbash": "docker exec -it dev-env_postgres_1 bash"
+    "dbash": "docker exec -it fs-next_template_next_1 bash"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.0.2",
     "@types/jsonwebtoken": "^8.3.8",
+    "antd": "^4.0.3",
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "emotion": "^10.0.27",
     "jsonwebtoken": "^8.5.1",
+    "less": "^3.11.1",
     "next": "^9.3.0",
     "pg": "^7.18.2",
     "react": "16.13.0",
@@ -26,6 +29,11 @@
     "@types/node": "^13.9.0",
     "@types/pg": "^7.14.1",
     "@types/react": "^16.9.23",
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-less": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "less-vars-to-js": "^1.3.0",
+    "next-compose-plugins": "^2.2.0",
     "typescript": "^3.8.3"
   }
 }

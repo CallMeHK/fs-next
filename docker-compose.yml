@@ -1,21 +1,23 @@
 version: "3"
 services:
-  
-  template_next:
-    build: .
-    depends_on:
-      - postgres
-    environment:
-      NODE_ENV: development
-      PORT: 3000
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: db
-    ports:
-      - "8080:8080"
-    volumes:
-      - .:/app/
-      - /app/node_modules
+  # uncomment this to run the whole project in docker
+  # you may have to adjust the pg connection url in .env from localhost to postgres
+  # template_next:
+  #   build: .
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     NODE_ENV: development
+  #     PGCONNECTION: postgres://user:pass@postgres:5432/db
+  #     PORT: 3000
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: pass
+  #     POSTGRES_DB: db
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - .:/app/
+  #     - /app/node_modules
 
   postgres:
     image: postgres:10.4
