@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.2",
+    "@material-ui/core": "^4.9.7",
+    "@material-ui/icons": "^4.9.1",
     "@types/jsonwebtoken": "^8.3.8",
     "antd": "^4.0.3",
     "bcrypt": "^4.0.1",
@@ -22,7 +24,8 @@
     "next": "^9.3.0",
     "pg": "^7.18.2",
     "react": "16.13.0",
-    "react-dom": "16.13.0"
+    "react-dom": "16.13.0",
+    "typeface-roboto": "0.0.75"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
