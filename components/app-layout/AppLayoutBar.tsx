@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { UserContext } from '../../context/UserContext'
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
+import { AppBar, Toolbar, IconButton, Typography, Grid } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import * as AppLayout from './AppLayout'
+import Button from '@material-ui/core/Button'
+import SignedInUserMenu from './SignedInUserMenu'
+import { useRouter } from 'next/router'
 
 interface Props {
     handleDrawerToggle: () => void
@@ -11,18 +13,34 @@ interface Props {
 
 const AppLayoutBar: React.FC<Props> = ({ handleDrawerToggle }) => {
     const { isLoggedIn, setIsLoggedIn } = React.useContext(UserContext)
+    const router = useRouter()
     const classes = AppLayout.useStyles()
+
+    const goToLoginPage = React.useCallback(() => {
+        router.push('/login')
+    }, [router])
 
     return (
         <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar>
-                <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} className={classes.menuButton}>
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" noWrap>
-                    Character Generator
-                </Typography>
-            </Toolbar>
+            <Grid container direction="row" justify="space-between" alignItems="flex-start">
+                <Toolbar>
+                    <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} className={classes.menuButton}>
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap>
+                        Character Generator
+                    </Typography>
+                </Toolbar>
+                <Toolbar>
+                    {isLoggedIn ? (
+                        <SignedInUserMenu />
+                    ) : (
+                        <Button variant="contained" onClick={goToLoginPage}>
+                            Sign in
+                        </Button>
+                    )}
+                </Toolbar>
+            </Grid>
         </AppBar>
     )
 
