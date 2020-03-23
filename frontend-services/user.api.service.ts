@@ -1,7 +1,5 @@
 import { request } from './fetch.service'
-import { tryCatchP } from '../utils/try-catch'
 import { LoginApiPost } from '../pages/api/auth/login'
-import { SuccessWrapper } from '../utils/common.interface'
 
 const UserApiServiceFactory = () => {
     const login = async (email: string, password: string): Promise<LoginApiPost> => {

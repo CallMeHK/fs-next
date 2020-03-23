@@ -2,14 +2,14 @@ import * as React from 'react'
 import * as LoginPage from '../../pages/login'
 import { TextField, Button, Grid, Link, Typography } from '@material-ui/core'
 import { UserApiService } from '../../frontend-services/user.api.service'
-import { useRouter } from 'next/router'
+import { UserContext } from '../../context/UserContext'
 
 const SignInForm: React.FC = () => {
     const classes = LoginPage.useStyles()
     const [email, setEmail] = React.useState<string>('')
     const [password, setPassword] = React.useState<string>('')
     const [errorMessage, setErrorMessage] = React.useState<string>('')
-    const router = useRouter()
+    const userContext = React.useContext(UserContext)
 
     const handleSubmit = React.useCallback(
         async (e: React.BaseSyntheticEvent) => {
@@ -19,11 +19,9 @@ const SignInForm: React.FC = () => {
                 return setErrorMessage(userApiResponse.error)
             }
 
-            const token = userApiResponse.data?.token
-            localStorage.setItem('token', token)
-            router.push('/home')
+            userContext.logInUser(userApiResponse.data)
         },
-        [email, password, router]
+        [email, password]
     )
 
     const isSignInDisabled = email !== '' && password !== ''
