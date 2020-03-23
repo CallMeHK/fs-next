@@ -1,17 +1,30 @@
 import * as React from 'react'
 import * as LoginPage from '../../pages/login'
-import { TextField, Button, Grid, Link } from '@material-ui/core'
+import { TextField, Button, Grid, Link, Typography } from '@material-ui/core'
+import { UserApiService } from '../../frontend-services/user.api.service'
+import { useRouter } from 'next/router'
 
 const SignInForm: React.FC = () => {
     const classes = LoginPage.useStyles()
     const [email, setEmail] = React.useState<string>('')
     const [password, setPassword] = React.useState<string>('')
+    const [errorMessage, setErrorMessage] = React.useState<string>('')
+    const router = useRouter()
 
-    const handleSubmit = React.useCallback((e: React.BaseSyntheticEvent) => {
-        e.preventDefault()
-        
+    const handleSubmit = React.useCallback(
+        async (e: React.BaseSyntheticEvent) => {
+            e.preventDefault()
+            const userApiResponse = await UserApiService.login(email, password)
+            if (!userApiResponse.success) {
+                return setErrorMessage(userApiResponse.error)
+            }
 
-    },[email, password])
+            const token = userApiResponse.data?.token
+            localStorage.setItem('token', token)
+            router.push('/home')
+        },
+        [email, password, router]
+    )
 
     const isSignInDisabled = email !== '' && password !== ''
 
@@ -43,6 +56,9 @@ const SignInForm: React.FC = () => {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
             />
+            <div style={{ height: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'red' }}>
+                {errorMessage !== '' && <Typography variant="subtitle2">{errorMessage}</Typography>}
+            </div>
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} disabled={!isSignInDisabled} onClick={handleSubmit}>
                 Sign In
             </Button>

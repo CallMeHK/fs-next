@@ -1,9 +1,9 @@
 import { NextApiRequest } from "next";
 
-export interface SuccessWrapper<T> {
+export interface SuccessWrapper<T, S = string> {
     success: boolean
     data?: T
-    error?: Error
+    error?: S
 }
 
 export interface NextApiWithBody<T> extends NextApiRequest {

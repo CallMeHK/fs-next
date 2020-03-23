@@ -10,6 +10,18 @@ interface LoginRequestBody {
     password: string
 }
 
+export interface LoginApiPost {
+    success: boolean
+    data?: {
+        token: string
+        id: number
+        username: string
+        email: string
+        role: string
+    }
+    error?: string
+}
+
 const POST = async (req: NextApiWithBody<LoginRequestBody>, res: NextApiResponse) => {
     const { email: requestEmail, password: requestPassword } = req.body
 
@@ -45,7 +57,11 @@ const POST = async (req: NextApiWithBody<LoginRequestBody>, res: NextApiResponse
     return res.json({
         success: true,
         data: {
-            token
+            token,
+            id,
+            username,
+            email,
+            role
         }
     })
 }
