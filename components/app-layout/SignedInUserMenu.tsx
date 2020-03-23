@@ -5,7 +5,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
 const SignedInUserMenu: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-    const { isLoggedIn, setIsLoggedIn } = React.useContext(UserContext)
+    const userContext = React.useContext(UserContext)
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget)
@@ -17,7 +17,7 @@ const SignedInUserMenu: React.FC = () => {
 
     const handleLogout = () => {
         setAnchorEl(null)
-        setIsLoggedIn(false)
+        userContext.logOutUser()
     }
 
     return (

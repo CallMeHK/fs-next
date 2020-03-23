@@ -57,7 +57,15 @@ const SignInForm: React.FC = () => {
             <div style={{ height: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'red' }}>
                 {errorMessage !== '' && <Typography variant="subtitle2">{errorMessage}</Typography>}
             </div>
-            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} disabled={!isSignInDisabled} onClick={handleSubmit}>
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                disabled={!isSignInDisabled}
+                onClick={handleSubmit}
+            >
                 Sign In
             </Button>
             <Grid container>

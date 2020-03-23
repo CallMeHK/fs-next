@@ -15,6 +15,7 @@ export interface IUserContext {
     setUserState: (userState: IUserState) => void
     setIsLoggedIn: (isLoggedIn: boolean) => void
     logInUser: (user: IUserState) => void
+    logOutUser: () => void
 }
 
 export const UserContext = React.createContext<IUserContext>({} as IUserContext)
@@ -27,6 +28,7 @@ const UserContextProvider: React.FC = ({ children }) => {
     const logInUser = React.useCallback(
         (user: IUserState) => {
             localStorage.setItem('token', user.token)
+            localStorage.setItem('user', JSON.stringify(user))
             setUserState(user)
             setIsLoggedIn(true)
             router.push('/home')
@@ -34,7 +36,18 @@ const UserContextProvider: React.FC = ({ children }) => {
         [setUserState, setIsLoggedIn, router]
     )
 
-    return <UserContext.Provider value={{ isLoggedIn, userState, setUserState, setIsLoggedIn, logInUser }}>{children}</UserContext.Provider>
+    const logOutUser = React.useCallback(() => {
+        localStorage.removeItem('token')
+        setUserState({} as IUserState)
+        setIsLoggedIn(false)
+        router.push('/')
+    }, [setUserState, setIsLoggedIn, router])
+
+    return (
+        <UserContext.Provider value={{ isLoggedIn, userState, setUserState, setIsLoggedIn, logInUser, logOutUser }}>
+            {children}
+        </UserContext.Provider>
+    )
 }
 
 export default UserContextProvider
